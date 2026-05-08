@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerControllerX : MonoBehaviour
 {
@@ -24,6 +25,17 @@ public class PlayerControllerX : MonoBehaviour
         transform.Translate(Vector3.forward * (speed * Time.deltaTime));
 
         // tilt the plane up/down based on up/down arrow keys
-        transform.Rotate(Vector3.right * (rotationSpeed * Time.deltaTime* verticalInput));
+        if (verticalInput != 0)
+        {
+            transform.Rotate(Vector3.right * (rotationSpeed * Time.deltaTime * verticalInput));
+        }
+    }
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Ground")
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
 }
